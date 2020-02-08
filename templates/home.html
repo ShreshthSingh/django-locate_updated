@@ -1,0 +1,18 @@
+{%extends 'base.html'%}
+{%  block content %}
+
+
+
+
+<h1>Hello {{name}} is  {{ gaali }}!!!!!!!</h1>
+<form action ='add' method='POST'>
+    {% csrf_token %}
+    ENTER FIRST NUMBER : <input type='text' name = 'num1'><br>
+    ENTER SECOND NUMBER : <input type='text' name = 'num2'><br>
+    <input type="submit">
+
+
+
+
+</form>
+{% endblock %}

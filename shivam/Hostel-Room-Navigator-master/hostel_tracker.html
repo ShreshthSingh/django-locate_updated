@@ -1,0 +1,226 @@
+<html>
+    <head>
+        <title>Hostel Navigator</title>
+        <style>
+            
+            div {
+                content:normal;
+                font-weight: bold;
+                font-style: oblique;
+                text-align: center;
+                background-image: url('abstract bg 9.jpg');
+                background-color: blanchedalmond;
+                background-blend-mode:soft-light;
+                
+            }
+        </style>
+    </head>
+<body >
+    <div>
+    
+    <p style="color: black;font-size: 50px;font-style:oblique; font-weight: 500; text-align: center;background-color: blanchedalmond;">
+        <b>Welcome to the Hostel Room Navigator App</b></p>
+   
+        <p><center><h3><b><u>Note</u></b> <i>(For Using Search By Student's detail feature):-</i><br>
+        This Application is entirely based on frontent. So, I've hardcoded the details of some Students as follow:</h3></center>
+       
+       <ol style="color: red; font-style: italic; font-size: 17px; margin-bottom: 5px; font-weight:bold;
+        border: black solid 2px; padding: auto; width: 480px; margin: 0 auto; border-radius: 15px;background-color: blanchedalmond;">
+
+        <li>Name: Shivam , :::: Year: 2 , :::: Result : Room No.: 2 , Floor:3</li>
+        <li>Name: Shreshth , :: Year: 2 ,::::: Result : Room No.: 5 , Floor:2</li>
+        <li>Name: Kunal , ::::: Year: 2 , :::: Result : Room No.: 1 , Floor:0</li>
+        <li>Name: Faisal , :::: Year: 2 , :::: Result : Room No.: 10 , Floor:4</li>
+        <li>Name: Tarun , ::::: Year: 3 , :::: Result : Room No.: 8 , Floor:5</li>
+        <li>Name: Kartik , :::: Year: 4 , :::: Result : Room No.: 6 , Floor:4</li>
+        </ol>
+        <center><h4>You can use any one of the above data to check the functionality of the page. </h4></center>
+        <h1 style="color: black; font-size: 60px; margin:15px auto;background-color: blanchedalmond;"><center>Hostel Map</center></h1>
+    </p>
+    
+
+    
+    
+    <canvas id="canvasMap" width="500" height="500" style="border:black 3px;
+    border-radius: 5px; padding: 5px;margin-right: 5px;position:auto;margin-left:0px;margin-bottom: 5px;border-style:dashed;"></canvas>
+   </div>
+   <script>
+        var canvas;
+        var canvasContext;
+        var roomX1 = 40;
+        var roomX2 = roomX1 + 45;
+        var x;
+        var y;
+        var posX;
+        var posY;
+        var roomFloor;
+        var roomNumber;
+
+        window.onload = function() 
+            {
+            console.log("Hello World!");
+            canvas = document.getElementById('canvasMap');
+            canvasContext = canvas.getContext('2d');
+            setInterval(drawEverything);
+            }
+
+        function drawEverything() 
+        {
+            colorRect (0,0,canvas.width,canvas.height,'#C0C0C0');
+            //floor number...
+            colorRect (30,0,2,canvas.height,'red');
+            //floors...
+            hostelFloors();
+            //hostel rooms...
+            hostelRooms() ;
+            floorNumber();
+            moveToRoom();
+            
+        }
+        function hostelFloors()
+        {
+            colorRect (35,480,canvas.width,5,'red');
+            colorRect (35,400,canvas.width,5,'red');
+            colorRect (35,320,canvas.width,5,'red');
+            colorRect (35,240,canvas.width,5,'red');
+            colorRect (35,160,canvas.width,5,'red');
+            colorRect (35,80,canvas.width,5,'red');
+        }
+
+        function hostelRooms() 
+        {
+            x = 40;
+            
+                for(i=0;i<=10;i++)
+            {
+                roomDesign(x,20);
+                roomDesign(x,100);
+                roomDesign(x,180);
+                roomDesign(x,260);
+                roomDesign(x,340);
+                roomDesign(x,420);
+                x = x + 46;
+            } 
+        }
+
+        function roomDesign(leftPos,topPos)
+        {
+            colorRect(leftPos,topPos,35,50,'white');
+        }
+       
+        function colorRect (leftX,topY,width,height,drawColor) {
+            canvasContext.fillStyle = drawColor;
+            canvasContext.fillRect(leftX,topY,width,height);
+        }
+
+        function floorNumber()
+        {
+            var z = 50;
+            for(k=0;k<=6;k++)
+            {
+                canvasContext.fillText(5-k , 10, z);
+                z = z + 80
+            }
+            
+        }
+
+        function roomLocator (centerX,centerY,radius,drawColor)
+        {
+            colorRect();
+            canvasContext.fillStyle = drawColor;
+		    canvasContext.beginPath();
+		    canvasContext.arc(centerX,centerY,radius,0,Math.PI*2,true);
+		    canvasContext.fill();
+        }
+
+        function moveToRoom() 
+        {
+            posX = 58;
+            posY = 445;
+            
+            roomLocator(posX + (46*roomNumber),posY - (80*roomFloor),6,'green');
+        }
+
+        function goToRoom() 
+        {
+            posX = 58;
+            posY = 445;
+            roomNumber = roomNumber -1;
+            roomLocator(posX + (46*roomNumber),posY - (80*roomFloor),6,'green');
+        }
+
+        function locateButton()
+        {
+            roomNumber = document.getElementById("studentRoom").value - 1;
+            roomFloor = document.getElementById("studentFloor").value;
+            moveToRoom();
+        }
+
+        function findButton()
+        {
+            stuIdentity = document.getElementById("studentName").value
+            stuYear = document.getElementById("studentYear").value
+            if
+            (stuIdentity == "Shivam" && stuYear ==2 )
+            {
+                roomNumber = 2;
+                roomFloor = 3;
+                goToRoom();
+            }
+            else if
+            (stuIdentity == "Shreshth" && stuYear ==2)
+            {
+                roomNumber = 5;
+                roomFloor = 2;
+                goToRoom();
+            }
+            else if
+            (stuIdentity == "Tarun" && stuYear ==3)
+            {
+                roomNumber = 8;
+                roomFloor = 5;
+                goToRoom();
+            }
+            else if
+            (stuIdentity == "Kunal" && stuYear ==2)
+            {
+                roomNumber = 1;
+                roomFloor = 0;
+                goToRoom();
+            }
+            else if
+            (stuIdentity == "Faisal" && stuYear ==2)
+            {
+                roomNumber = 10;
+                roomFloor = 4;
+                goToRoom();
+            }
+            else if
+            (stuIdentity == "Kartik" && stuYear ==4)
+            {
+                roomNumber = 6;
+                roomFloor = 4;
+                goToRoom();
+            }
+        }
+
+    </script>
+
+<div>
+    
+    <p><h3><b><i>Search by entering Student's details:</i></b></h3></p>
+    <input id="studentName" type="text" placeholder = "Name" style="border: black 1px solid;">
+    <input id="studentYear" type="text" placeholder = "Year" style="border: black 1px solid;">
+    <button id="studentRoomFind" type="submit" onclick="findButton()" style="border: grey solid 2px;">Find</button>
+
+    <br><br>
+    
+    <p><h3><b><i>Search by entering Room Number and Floor No. :</i></b></h3></p>
+    <input id="studentRoom" type="text" placeholder = "Room Number" style="border: black 1px solid; margin-bottom: 3px;" >
+    <input id="studentFloor" type="text" placeholder = "Floor No.(Default 0)" style="border: black 1px solid;">
+    <button id="studentRoomX" type="submit" onclick="locateButton()" style="border: grey solid 2px;">Locate</button>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,218 @@
+<html>
+    
+    <head>
+        <title>Hostel Navigator</title>
+        <style>
+            
+            div {
+                content:normal;
+                font-weight: bold;
+                font-style: oblique;
+                text-align: center;
+                background-image: url('abstract bg 9.jpg');
+                background-color: blanchedalmond;
+                background-blend-mode:soft-light;
+                
+            }
+        </style>
+    </head>
+<body >
+    <div>
+    
+    <p style="color: black;font-size: 50px;font-style:oblique; font-weight: 500; text-align: center;background-color: blanchedalmond;">
+        <b>Welcome to the Hostel Room Navigator App</b></p>
+   
+    
+
+    
+    <canvas id="canvasMap" width="500" height="500" style="border:black 3px;
+    border-radius: 5px; padding: 5px;margin-right: 5px;position:auto;margin-left:0px;margin-bottom: 5px;border-style:dashed;"></canvas>
+   </div>
+  {%for stud in studs %}
+
+
+<script>
+    
+   
+            var a = "{{stud.name}}"
+           var b = "{{stud.year}}"
+           var c = "{{stud.floorno}}"
+          var d = "{{stud.roomno}}"
+    
+        var f = parseInt(c)
+        var g = parseInt(d)
+        
+        
+            
+    
+</script>
+{% endfor %}
+
+
+   
+   
+   <script>
+
+        var canvas;
+        var canvasContext;
+        var roomX1 = 40;
+        var roomX2 = roomX1 + 45;
+        var x;
+        var y;
+        var posX;
+        var posY;
+        var roomFloor;
+        var roomNumber;
+
+        window.onload = function() 
+            {
+            console.log("Hello World!");
+            canvas = document.getElementById('canvasMap');
+            canvasContext = canvas.getContext('2d');
+            setInterval(drawEverything);
+            }
+
+        function drawEverything() 
+        {
+            colorRect (0,0,canvas.width,canvas.height,'#C0C0C0');
+            //floor number...
+            colorRect (30,0,2,canvas.height,'red');
+            //floors...
+            hostelFloors();
+            //hostel rooms...
+            hostelRooms() ;
+            floorNumber();
+            moveToRoom();
+            
+        }
+        function hostelFloors()
+        {
+            colorRect (35,480,canvas.width,5,'red');
+            colorRect (35,400,canvas.width,5,'red');
+            colorRect (35,320,canvas.width,5,'red');
+            colorRect (35,240,canvas.width,5,'red');
+            colorRect (35,160,canvas.width,5,'red');
+            colorRect (35,80,canvas.width,5,'red');
+        }
+
+        function hostelRooms() 
+        {
+            x = 40;
+            
+                for(i=0;i<=10;i++)
+            {
+                roomDesign(x,20);
+                roomDesign(x,100);
+                roomDesign(x,180);
+                roomDesign(x,260);
+                roomDesign(x,340);
+                roomDesign(x,420);
+                x = x + 46;
+            } 
+        }
+
+        function roomDesign(leftPos,topPos)
+        {
+            colorRect(leftPos,topPos,35,50,'white');
+        }
+       
+        function colorRect (leftX,topY,width,height,drawColor) {
+            canvasContext.fillStyle = drawColor;
+            canvasContext.fillRect(leftX,topY,width,height);
+        }
+
+        function floorNumber()
+        {
+            var z = 50;
+            for(k=0;k<=6;k++)
+            {
+                canvasContext.fillText(5-k , 10, z);
+                z = z + 80
+            }
+            
+        }
+
+        function roomLocator (centerX,centerY,radius,drawColor)
+        {
+            colorRect();
+            canvasContext.fillStyle = drawColor;
+		    canvasContext.beginPath();
+		    canvasContext.arc(centerX,centerY,radius,0,Math.PI*2,true);
+		    canvasContext.fill();
+        }
+
+        function moveToRoom() 
+        {
+            posX = 58;
+            posY = 445;
+            
+            roomLocator(posX + (46*roomNumber),posY - (80*roomFloor),6,'green');
+        }
+
+        function goToRoom() 
+        {
+            posX = 58;
+            posY = 445;
+            roomNumber = roomNumber -1;
+            roomLocator(posX + (46*roomNumber),posY - (80*roomFloor),6,'green');
+        }
+
+        function locateButton()
+        {
+            roomNumber = document.getElementById("studentRoom").value - 1;
+            roomFloor = document.getElementById("studentFloor").value;
+            moveToRoom();
+        }
+        
+
+        
+
+    </script>
+    
+   
+
+
+<div>
+    <div><a href="/registerr">REGISTER STUDENT</a></div>
+
+ 
+
+    
+    <p><h3><b><i>Search by entering Student's details:</i></b></h3></p>
+
+    <form action='find' method='POST'>
+        {% csrf_token %}
+        <input  type="text" name='name' placeholder = "Name" style="border: black 1px solid;">
+    <input  type="text" name='year' placeholder = "Year" style="border: black 1px solid;">
+    <input type='submit'>
+
+
+    </form>
+
+    
+    
+
+    <br><br>
+
+
+
+
+
+
+
+
+    
+    <p><h3><b><i>Search by entering Room Number and Floor No. :</i></b></h3></p>
+    <input id="studentRoom" type="text" placeholder = "Room Number" style="border: black 1px solid; margin-bottom: 3px;" >
+    <input id="studentFloor" type="text" placeholder = "Floor No.(Default 0)" style="border: black 1px solid;">
+    <button id="studentRoomX" type="submit" onclick="locateButton()" style="border: grey solid 2px;">Locate</button>
+<br>
+    <a href="https://github.com/iamshivam99"><b>© FRONTEND BY SHIVAM SINGH</b></a> <br>
+    <a href="https://github.com/ShreshthSingh"><b>© BACKEND BY SHRESHTH SINGH</b></a>
+   
+</div>
+ 
+
+
+</body>
+</html>
